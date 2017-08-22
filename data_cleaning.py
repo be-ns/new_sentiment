@@ -20,14 +20,14 @@ def check_df(path, nlp):
 
 def remove_stop_words(df, nlp):
     df.sent = df.sent.apply(lambda words: _check_for_stops(words))
-    df.sent = df.sent.apply(lambda words: lemmatize_with_spacy(words, nlp))
+    df.sent = df.sent.apply(lambda words: _lemmatize_with_spacy(words, nlp))
     return df
 
 def _check_for_stops(sent):
     d = enchant.Dict('en_US')
     return re.sub("[0-9]", "", ' '.join([word.lower().strip(punc) for word in list(sent.split(' ')) if word not in set(stopwords.words('english')) and d.check(word) == True]))
 
-def lemmatize_with_spacy(sent, nlp):
+def _lemmatize_with_spacy(sent, nlp):
     replacement, originals = nlp(sent), []
     for ix, token in enumerate(replacement):
         originals.append(token.lemma_)
@@ -39,20 +39,16 @@ def get_tfidf(df):
     print(type(x))
     return df
 
-# remove punctuation
-# read in data from the cleaned_data.csv file
 # change to_dense to make sparse matrix into np array and add into pandas df with labels - save that as tfidt_data.csv
 # combine that all into one function with hidden methods
 
 
 if __name__ == '__main__':
     # completed initial load
-    libc.load_data()
+    # libc.load_data()
     # completed initial cleaning
-    nlp = spacy.load('en')
-    df = check_df('data.csv', nlp)
-    # df = get_tfidf(df)
-    # df = strip_punctuation(df)
-    print(df.columns.tolist())
-    df.to_csv(path_or_buf='cleaned_data.csv', header=['sent', 'label'])
-    print(df.head(2))
+    # nlp = spacy.load('en')
+    # df = check_df('data.csv', nlp)
+    # print(df.columns.tolist())
+    # df.to_csv(path_or_buf='cleaned_data.csv', header=['sent', 'label'])
+    print('Initial_cleaning completed already.')
